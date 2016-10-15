@@ -1,6 +1,6 @@
 import random
 from collections import namedtuple
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Resource, Api
 
 from MarkovMaker import MarkovMaker
@@ -33,7 +33,11 @@ class Sentence(Resource):
 			person_name = "Derek"
 		mm = MarkovMaker(person_name)
 		return(person_name + ": " + mm.create_chain())
-	
+
+@app.route('/')
+def index():
+	return render_template('index.html')
+
 api.add_resource(Conversation, '/convo')
 api.add_resource(Sentence, '/sentence/<person_name>')
 
