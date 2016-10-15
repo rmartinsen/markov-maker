@@ -33,7 +33,7 @@ class Sentence(Resource):
 		if not person_name:
 			person_name = "Derek"
 		mm = MarkovMaker(person_name)
-		return(person_name + ": " + mm.create_chain())
+		return("<strong>" + person_name + "</strong>" + ": " + mm.create_chain())
 
 @app.route('/')
 def index():
