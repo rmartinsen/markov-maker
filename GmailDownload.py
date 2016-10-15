@@ -76,5 +76,5 @@ class GmailDownloader:
         last_space = snippet_text.rfind(" ")
         return snippet_text[:last_space]
 
-gd = GmailDownloader("kate", "dylantyagi@gmail.com")
+gd = GmailDownloader("kate", "ryandunlap@gmail.com")
 gd.save_emails_to_text()

@@ -1,16 +1,18 @@
 import random
 import re
-
+from corpora import corpora
 
 class MarkovMaker():
 	
-	def __init__(self, corpus):
-		self.corpus = corpus
+	def __init__(self, target_name):
+		self.target_name = target_name
+		self.corpus = corpora[target_name]
 		self.tokenized_corpus = self.tokenize_corpus()
 		self.triples = self.get_triples()
 
 	def tokenize_corpus(self):
-		 corpus = re.sub(r'[,.?!-\'"]', '', self.corpus)
+		 corpus = re.sub(r'[,()\"]', '', self.corpus)
+		 corpus = corpus.replace('---------- Forwarded message ----------', '')
 		 corpus = corpus.lower()
 		 return corpus.split()
 
@@ -20,7 +22,8 @@ class MarkovMaker():
 			triples.append(self.tokenized_corpus[i: i + 3])
 		return triples
 
-	def create_chain(self, length):
+	def create_chain(self):
+		length = self.get_random_chain_length()
 		word = random.choice(self.tokenized_corpus)
 		chain = [word]
 		for i in range(length-1):
@@ -30,7 +33,11 @@ class MarkovMaker():
 			chain.append(to_append[2])
 			word = chain[-1]
 
-		return " ".join(chain)
+		lower_case_chain = " ".join(chain)
+		return lower_case_chain[0].upper() + lower_case_chain[1:] + "."
+
+	def get_random_chain_length(self):
+		return random.randint(8,18)
 
 	def get_candidates(self, word):
 		candidates = []
@@ -40,6 +47,3 @@ class MarkovMaker():
 
 		return candidates
 
-
-maker = MarkovMaker("It was the best of times, it was the blurst of times. It was the times of greatest sorrow and times of some other stuff too. Mostly, it was times.")
-print(maker.create_chain(4))
