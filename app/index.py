@@ -28,12 +28,14 @@ class Conversation(Resource):
 
 		return(convo)
 
+
 class Sentence(Resource):
 	def get(self, person_name=None):
 		if not person_name:
 			person_name = "Derek"
 		mm = MarkovMaker(person_name)
 		return("<strong>" + person_name + "</strong>" + ": " + mm.create_chain())
+
 
 @app.route('/')
 def index():
