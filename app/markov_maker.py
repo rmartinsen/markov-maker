@@ -2,13 +2,13 @@ import random
 import re
 from corpora import corpora
 
-MIN_WORDS_IN_CHAIN = 8
-MAX_WORDS_IN_CHAIN = 18
+MIN_NGRAMS_IN_CHAIN = 8
+MAX_NGRAMS_IN_CHAIN = 18
 
 
 class MarkovMaker():
 
-    def __init__(self, target_name):
+    def __init__(self, target_name, corpora=corpora):
         """
         Initialize MarkovMaker with name as it appears in corpora. A random chain can then be
         created using the create_chain method.
@@ -18,23 +18,24 @@ class MarkovMaker():
         """
         self.target_name = target_name
         self.corpus = corpora[target_name]
-        self.tokenized_corpus = self.tokenize_corpus()
-        self.triples = self.get_triples()
+        self.tokenized_corpus = self._tokenize_corpus()
+        self.triples = self._get_triples()
 
     def create_chain(self):
         """
         Creates a random markov chain based on n_grams of length 3. Warning: The accuracy
         of how closely it imitates people can be spooky!
         """
-        length = self.get_random_chain_length()
+        print(self.tokenized_corpus)
+        length = self._get_random_chain_length()
         word = random.choice(self.tokenized_corpus)
         chain = [word]
-        for i in range(length-1):
-            candidates = self.get_candidates(word)
+        for i in range(length):
+            candidates = self._get_candidates(word)
             to_append = random.choice(candidates)
             chain.append(to_append[1])
             chain.append(to_append[2])
-        word = chain[-1]
+            word = chain[-1]
 
         lower_case_chain = " ".join(chain)
         return lower_case_chain[0].upper() + lower_case_chain[1:] + "."
@@ -43,7 +44,7 @@ class MarkovMaker():
         """
         Splits corpus into individual words and strips punctuation and email formatting.
         """
-        corpus = re.sub(r'[,()\"]', '', self.corpus)
+        corpus = re.sub(r'[,.()\"]', '', self.corpus)
         corpus = corpus.replace('---------- Forwarded message ----------', '')
         corpus = corpus.lower()
         return corpus.split()
@@ -58,7 +59,7 @@ class MarkovMaker():
         return triples
 
     def _get_random_chain_length(self):
-        return random.randint(MIN_WORDS_IN_CHAIN, MAX_WORDS_IN_CHAIN)
+        return random.randint(MIN_NGRAMS_IN_CHAIN, MAX_NGRAMS_IN_CHAIN)
 
     def _get_candidates(self, word):
         """
