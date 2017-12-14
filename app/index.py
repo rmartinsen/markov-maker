@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template
 from flask_restful import Api
 
-from resources import Conversation, Sentence
+from app.resources import Conversation, Sentence
 
 
 app = Flask(__name__)

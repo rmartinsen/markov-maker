@@ -102,7 +102,7 @@ def create_conversation(corpora, min_sentences=4, max_sentences=16):
 
 def create_sentence(corpora, person_name):
     if not person_name:
-        person_name = corpora.keys()[0]
+        person_name = list(corpora.keys())[0]
 
     mm = MarkovMaker(corpora, person_name)
     sentence = mm.create_sentence()
