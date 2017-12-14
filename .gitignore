@@ -1,4 +1,5 @@
 client_secret.json
+**/*.pyc
 **/__pycache__
 venv
 .ropeproject
