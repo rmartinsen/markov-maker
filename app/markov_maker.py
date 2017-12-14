@@ -100,7 +100,16 @@ def create_conversation(corpora, min_sentences=4, max_sentences=16):
     return convo
 
 
-def create_sentence(corpora, person_name):
+def create_sentence(corpora, person_name=None):
+    """
+    Creates single sentence based on corpora and given name.
+
+    Arguments:
+    corpora: A dictionary-like object where the key is the person name and the value is the
+             corpus used to
+    person_name: The key in corpora for the person to create a sentence for. If person_name is not
+                 specified then an arbitrary key will be selected.
+    """
     if not person_name:
         person_name = list(corpora.keys())[0]
 
