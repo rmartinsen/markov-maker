@@ -16,7 +16,7 @@ resources.create_conversation = Mock(return_value=TEST_CONVERSATION)
 
 def test_get_sentence_resource():
     sentence = resources.Sentence().get()
-
+    import pdb; pdb.set_trace()
     assert sentence == TEST_SENTENCE
 
 
