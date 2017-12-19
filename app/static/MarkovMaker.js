@@ -1,39 +1,39 @@
+function sentenceToHTML(json) {
+    var html = "<li><strong>";
+    html += json.name + "</strong>:"
+    html += json.sentence;
+    html += "</li>";
+    return html;
+}
+
+function conversationToHTML(json) {
+    html = "<ul>";
+    html += json.map(function(line){
+        return sentenceToHTML(line);
+    });
+    html += "</ul>";
+    return html;
+}
+
 function createConvo() {
 	var url = "/convo";
-	var result = $.get(url);
 
-	var lines = "";
-
-	result.done(function(data) {
-		lines = data.map(function(line) {
-			var return_str = "<strong>";
-			return_str += line.name + "</strong>: ";
-			return_str += line.sentence;
-			return_str += "<br>";
-			return return_str;
-		})
-
-		$("#generated-text").html(lines);
-	})
-
-	result.fail(function(){
-		createConvo();
-	})
+    fetch(url).then(function(response) {
+        return response.json();
+    }).then(function(json) {
+        var formattedTest = conversationToHTML(json);
+        $("#generated-text").html(formattedText);
+    })
 }
 
 function createSentence() {
 	var person = $("#person-select").val();
 	var url = "/sentence/" + person;
-	var result = $.get(url);
-
-	result.done(function(data){
-		$("#generated-text").html(data);
-	})
-
-	result.fail(function(data){
-		createSentence();
-	})
-
-
-
+    fetch(url).then(function(response) {
+        return response.json();
+    }).then(function(json) {
+        var formattedText = sentenceToHTML(json);
+        $("#generated-text").html(formattedText);
+    })
+    
 }
