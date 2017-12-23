@@ -125,5 +125,5 @@ def create_person_list(corpora):
     Arguments:
     corpora: A dictionary-like object where the key is the person name.
     """
-    names = list(corpora.keys())
+    names = sorted(list(corpora.keys()))
     return names

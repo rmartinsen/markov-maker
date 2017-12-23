@@ -49,3 +49,41 @@ function createSentence() {
     })
     
 }
+
+function createPersonHTMLListFromJSON(personListJSON) {
+
+    var personListHTML = personListJSON.map( function(personName) {
+        formattedName =  "<option value='" + personName + "'>" + personName + "</option>";
+        return formattedName;
+    })
+
+    return personListHTML;
+  
+}
+
+function addPersonHTMLValuesToSelect(personHTMLValues) {
+    for(var i=0; i<personHTMLValues.length; i++) {
+        $("#person-select").append(personHTMLValues[i]);
+    }
+}
+
+function createNameList() {
+    var url = "/people";
+    var response = fetch(url).then(function(response) {
+        if(!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response.json();
+    }).catch(function(response) {
+        setGeneratedText("Error loading data. Please try again");
+    })
+    
+    response.then(function(json) {
+        var personHTMLValues = createPersonHTMLListFromJSON(json);
+        addPersonHTMLValuesToSelect(personHTMLValues);
+    })
+}
+
+$(document).ready(function() {
+    createNameList();
+})
