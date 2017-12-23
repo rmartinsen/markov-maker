@@ -15,25 +15,37 @@ function conversationToHTML(json) {
     return html;
 }
 
+function setGeneratedText(text) {
+    $("#generated-text").html(text);
+}
+
 function createConvo() {
 	var url = "/convo";
 
     fetch(url).then(function(response) {
         return response.json();
     }).then(function(json) {
-        var formattedTest = conversationToHTML(json);
-        $("#generated-text").html(formattedText);
+        var formattedText = conversationToHTML(json);
+        setGeneratedText(formattedText);
     })
 }
 
 function createSentence() {
 	var person = $("#person-select").val();
 	var url = "/sentence/" + person;
-    fetch(url).then(function(response) {
+
+    var response = fetch(url).then(function(response) {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
         return response.json();
-    }).then(function(json) {
+    }).catch(function(response) {
+        setGeneratedText("Error in creating text. Please try again.")
+    })
+                
+    response.then(function(json) {
         var formattedText = sentenceToHTML(json);
-        $("#generated-text").html(formattedText);
+        setGeneratedText(formattedText);
     })
     
 }
