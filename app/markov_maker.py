@@ -106,7 +106,7 @@ def create_sentence(corpora, person_name=None):
 
     Arguments:
     corpora: A dictionary-like object where the key is the person name and the value is the
-             corpus used to
+             corpus used containing sample text from the person.
     person_name: The key in corpora for the person to create a sentence for. If person_name is not
                  specified then an arbitrary key will be selected.
     """
@@ -117,3 +117,13 @@ def create_sentence(corpora, person_name=None):
     sentence = mm.create_sentence()
     return {"name": person_name,
             "sentence": sentence}
+
+
+def create_person_list(corpora):
+    """
+    Creates list of keys in corpora.
+    Arguments:
+    corpora: A dictionary-like object where the key is the person name.
+    """
+    names = corpora.keys()
+    return names

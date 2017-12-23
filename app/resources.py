@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from app.markov_maker import create_sentence, create_conversation
+from app.markov_maker import create_conversation, create_person_list, create_sentence
 from default_corpora import corpora
 
 MIN_CONVO_SENTENCES = 4
@@ -36,3 +36,9 @@ class Sentence(Resource):
         """
         sentence = create_sentence(corpora, person_name)
         return sentence
+
+
+class PersonList(Resource):
+    def get(self, corpora=corpora):
+        person_list = create_person_list(corpora)
+        return person_list
