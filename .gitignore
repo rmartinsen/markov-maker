@@ -2,6 +2,7 @@ client_secret.json
 **/*.pyc
 **/__pycache__
 venv
+genv
 .ropeproject
 .cache
 .coverage
